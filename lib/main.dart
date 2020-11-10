@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_app/screens/Explore.dart';
 import 'package:flutter_test_app/screens/Home.dart';
 import 'package:flutter_test_app/screens/SpaceExploration.dart';
-import 'package:flutter_test_app/screens/welcome.dart';
+import 'package:flutter_test_app/screens/Welcome.dart';
 import 'package:flutter_test_app/style.dart';
 
 const WelcomeRoute = '/welcome';
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
           screen = HomeScreen();
           break;
         case ExploreRoute:
-          screen = ExploreScreen();
+          screen = ExploreScreen(arguments['planet']);
           break;
       };
       return MaterialPageRoute(builder: (BuildContext context) => screen);

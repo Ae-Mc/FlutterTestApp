@@ -2,19 +2,27 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test_app/models/Planet.dart';
 import 'package:flutter_test_app/widgets/SpaceElement.dart';
 
 class ExploreScreen extends StatefulWidget {
+  final Planet planet;
+
+  ExploreScreen(this.planet);
+
   @override
-  createState() => _ExploreScreenState();
+  createState() => _ExploreScreenState(planet);
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  final Planet planet;
+
   int _selectedNavbarElement = 0;
+
+  _ExploreScreenState(this.planet);
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _selectedNavbarElement = 0;
   }
@@ -22,14 +30,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      Background(context),
+      _Background(context),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Container(
             constraints: BoxConstraints.expand(),
             color: Colors.transparent,
-            child: MainContent(context),
+            child: _MainContent(context),
           ),
         ),
         bottomNavigationBar: SizedBox(
@@ -44,18 +52,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         AssetImage("assets/images/Compass.png"),
                         size: 32,
                       ),
+                      // ignore: deprecated_member_use
                       title: SizedBox.shrink()),
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                         AssetImage("assets/images/Planet.png"),
                         size: 41,
                       ),
+                      // ignore: deprecated_member_use
                       title: SizedBox.shrink()),
                   BottomNavigationBarItem(
                       icon: ImageIcon(
                         AssetImage("assets/images/Person.png"),
                         size: 27,
                       ),
+                      // ignore: deprecated_member_use
                       title: SizedBox.shrink()),
                 ],
                 backgroundColor: Color(0x65202E59),
@@ -75,7 +86,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     ]);
   }
 
-  Widget Background(BuildContext context) {
+  Widget _Background(BuildContext context) {
     return Stack(
       children: [
         Positioned(
@@ -125,10 +136,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 Positioned(
                   top: 14,
                   left: 52,
-                  child: Image.asset(
-                    "assets/images/Earth.png",
-                    width: 766,
-                    height: 766,
+                  child: Hero(
+                    tag: planet.name,
+                    child: Image.asset(
+                      planet.imagePath,
+                      width: 766,
+                      height: 766,
+                    ),
                   ),
                 ),
               ],
@@ -139,7 +153,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  Widget MainContent(BuildContext context) {
+  Widget _MainContent(BuildContext context) {
     final paragraphFont = TextStyle(fontSize: 12);
     final numButtonFont = TextStyle(fontSize: 18);
     final headerFont = TextStyle(fontSize: 35);
@@ -208,19 +222,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 SizedBox(
                   height: 12,
                 ),
-                RichText(
-                  text: TextSpan(
-                    style: Theme.of(context).textTheme.bodyText2,
-                    children: [
-                      TextSpan(
-                        style: paragraphFont,
-                        text:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                            " Habitant sem ut sit fames in adipiscing. Ac magna donec"
-                            " egestas habitant.\n",
-                      ),
-                    ],
-                  ),
+                Text(
+                  planet.description,
+                  style: paragraphFont,
                 ),
               ],
             ),

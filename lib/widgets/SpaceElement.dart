@@ -11,8 +11,8 @@ class SpaceElementWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final w700 = TextStyle(fontWeight: FontWeight.w700);
 
-    return RichText(
-      text: TextSpan(style: Theme.of(context).textTheme.headline6, children: [
+    return Text.rich(
+      TextSpan(style: Theme.of(context).textTheme.headline6, children: [
         TextSpan(style: font, children: [
           TextSpan(text: firstWord, style: w700),
           TextSpan(text: secondWord)

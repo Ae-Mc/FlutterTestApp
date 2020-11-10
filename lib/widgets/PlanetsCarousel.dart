@@ -1,11 +1,25 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_app/main.dart';
+import 'package:flutter_test_app/models/Planet.dart';
 import 'package:flutter_test_app/widgets/SpaceElement.dart';
 
 class PlanetsCarouselWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return CarouselSlider(
+      items: Planet.fetchAll()
+          .map((Planet planet) => _buildPlanetItem(planet, context))
+          .toList(),
+      options: CarouselOptions(
+        height: 585,
+        enableInfiniteScroll: Planet.fetchAll().length > 2 ? true : false,
+      ),
+    );
+  }
+
+  Widget _buildPlanetItem(Planet planet, BuildContext context) {
     final planetFont = TextStyle(fontSize: 17);
     final planetHeaderFont = TextStyle(fontSize: 45, height: 1.1);
     final paragraphFont = TextStyle(fontSize: 12);
@@ -16,13 +30,9 @@ class PlanetsCarouselWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: RichText(
-              text: TextSpan(
-                style: Theme.of(context).textTheme.bodyText2,
-                children: [
-                  TextSpan(style: planetFont, text: "Earth"),
-                ],
-              ),
+            child: Text(
+              planet.name,
+              style: planetFont,
             ),
           ),
           SizedBox(
@@ -52,10 +62,13 @@ class PlanetsCarouselWidget extends StatelessWidget {
                   Positioned(
                     top: 21,
                     left: 17,
-                    child: Image.asset(
-                      "assets/images/Earth.png",
-                      width: 279,
-                      height: 279,
+                    child: Hero(
+                      tag: planet.name,
+                      child: Image.asset(
+                        planet.imagePath,
+                        width: 279,
+                        height: 279,
+                      ),
                     ),
                   ),
                 ],
@@ -70,7 +83,8 @@ class PlanetsCarouselWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SpaceElementWidget("Earth", "\nPlanet", font: planetHeaderFont),
+                SpaceElementWidget(planet.name, "\nPlanet",
+                    font: planetHeaderFont),
                 SizedBox(
                   height: 7,
                 ),
@@ -79,23 +93,20 @@ class PlanetsCarouselWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          style: Theme.of(context).textTheme.bodyText2,
-                          children: [
-                            TextSpan(
-                              style: paragraphFont,
-                              text: "Lorem ipsum dolor sit amet, consectetur"
-                                  " adipiscing elit. Habitant sem ut sit fames.",
-                            ),
-                          ],
-                        ),
+                      Text(
+                        planet.description,
+                        style: paragraphFont,
+                        maxLines: 2,
                       ),
                       SizedBox(
                         height: 24,
                       ),
                       GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, ExploreRoute),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          ExploreRoute,
+                          arguments: {'planet': planet},
+                        ),
                         child: Row(
                           children: [
                             SpaceElementWidget("View more", "",
