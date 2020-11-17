@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    super.initState();
     _selectedNavbarElement = 0;
   }
 
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(height: 40),
                             SpaceElementWidget("Space", "Element"),
                             SizedBox(height: 26),
-                            _SearchField(),
+                            _searchField(),
                             SizedBox(height: 31),
                             PlanetsCarouselWidget(),
                             SizedBox(height: 30),
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
   }
 
-  Widget _SearchField() {
+  Widget _searchField() {
     final searchHintFont =
         TextStyle(fontSize: 10, color: Color.fromRGBO(255, 255, 255, 0.5));
 

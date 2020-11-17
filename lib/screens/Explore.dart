@@ -30,14 +30,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      _Background(context),
+      _background(context),
       Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Container(
             constraints: BoxConstraints.expand(),
             color: Colors.transparent,
-            child: _MainContent(context),
+            child: _mainContent(context),
           ),
         ),
         bottomNavigationBar: SizedBox(
@@ -86,7 +86,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     ]);
   }
 
-  Widget _Background(BuildContext context) {
+  Widget _background(BuildContext context) {
     return Stack(
       children: [
         Positioned(
@@ -153,7 +153,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  Widget _MainContent(BuildContext context) {
+  Widget _mainContent(BuildContext context) {
     final paragraphFont = TextStyle(fontSize: 12);
     final numButtonFont = TextStyle(fontSize: 18);
     final headerFont = TextStyle(fontSize: 35);

@@ -5,7 +5,7 @@ import 'package:flutter_test_app/main.dart';
 import 'package:flutter_test_app/widgets/SpaceElement.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  final List<String> _SliderImages = [
+  final List<String> _sliderImages = [
     "assets/images/astronaut.png",
     "assets/images/space_02.png",
     "assets/images/space_03.png",
@@ -128,7 +128,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   List<Widget> _buildCarouselSliderItems() {
-    return _SliderImages.map((String imageName) => _buildSliderItem(imageName))
+    return _sliderImages.map((String imageName) => _buildSliderItem(imageName))
         .toList();
   }
 

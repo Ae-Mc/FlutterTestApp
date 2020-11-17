@@ -4,6 +4,9 @@ import 'package:flutter_test_app/screens/Home.dart';
 import 'package:flutter_test_app/screens/SpaceExploration.dart';
 import 'package:flutter_test_app/screens/Welcome.dart';
 import 'package:flutter_test_app/style.dart';
+import 'package:appcenter/appcenter.dart';
+import 'package:appcenter_analytics/appcenter_analytics.dart';
+import 'package:appcenter_crashes/appcenter_crashes.dart';
 
 const WelcomeRoute = '/welcome';
 const SpaceExplorationRoute = '/exploration';
@@ -12,7 +15,46 @@ const ExploreRoute = '/explore';
 
 main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyApp();
+  }
+}
+
+class _MyApp extends State<MyApp> {
+  String _appSecret;
+  String _installId = 'Unknown';
+  bool _areAnalyticsEnabled = false, _areCrashesEnabled = false;
+
+  _MyAppState() {
+    _appSecret = "9d27ad7a-3b31-4626-8018-2ad02f5e29e6";
+  }
+
+  @override
+  initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  initPlatformState() async {
+    await AppCenter.start(
+        _appSecret, [AppCenterAnalytics.id, AppCenterCrashes.id]);
+
+    if (!mounted) return;
+
+    var installId = await AppCenter.installId;
+
+    var areAnalyticsEnabled = await AppCenterAnalytics.isEnabled;
+    var areCrashesEnabled = await AppCenterCrashes.isEnabled;
+
+    setState(() {
+      _installId = installId;
+      _areAnalyticsEnabled = areAnalyticsEnabled;
+      _areCrashesEnabled = areCrashesEnabled;
+    });
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -64,7 +106,8 @@ class MyApp extends StatelessWidget {
         case ExploreRoute:
           screen = ExploreScreen(arguments['planet']);
           break;
-      };
+      }
+
       return MaterialPageRoute(builder: (BuildContext context) => screen);
     };
   }

@@ -30,6 +30,9 @@ dependencies:
   cupertino_icons: ^1.0.0
   url_launcher: ^5.4.2
   carousel_slider: ^2.3.1
+  appcenter:
+  appcenter_crashes:
+  appcenter_analytics:
 
 dev_dependencies:
   flutter_test:
